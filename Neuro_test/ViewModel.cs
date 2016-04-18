@@ -13,6 +13,7 @@ namespace Neuro_test
         public List<string> InfoBox = new List<string>();
         public int[,] Input = new int[3, 5];
         public string Path = "../../samples/" + "0.bmp";
+        public Neuron[] Web = new Neuron[10];
 
         public void Recognize()
         {
@@ -27,6 +28,15 @@ namespace Neuro_test
             InfoBox.Add("ImageCounter = " + Convert.ToString(ImageCounter));
         }
 
+        public void RecognizeWeb()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Web[i].mul_w();
+                Web[i].Sum();
+            }
+        }
+
         public void Next()
         {
             if (ImageCounter < 9)
@@ -35,7 +45,6 @@ namespace Neuro_test
                 UpdateInfo();
             }
         }
-
         public void Previous()
         {
             if (ImageCounter > 0)

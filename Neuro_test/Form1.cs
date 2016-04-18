@@ -19,6 +19,10 @@ namespace WindowsFormsApplication1
         private void Form1_Load(object sender, EventArgs e)
         {
             viewModel.Homer = new Neuron(3, 5, viewModel.Input, "5");
+            for (int i = 0; i<10; i++)
+            {
+                viewModel.Web[i] = new Neuron(3, 5, viewModel.Input, i.ToString());
+            }
             Bind();
         }
 
@@ -166,6 +170,59 @@ namespace WindowsFormsApplication1
             }
             sr.Close();
             ShowFileInfo(s);
+        }
+
+        private void SelectButton_Click(object sender, EventArgs e)
+        {
+            OperatingInfoBox.Items.Clear();
+            openFileDialog1.Title = "Укажите тестируемый файл";
+            openFileDialog1.ShowDialog();
+            OperatingImgBox.Image = Image.FromFile(openFileDialog1.FileName);
+            Bitmap im = OperatingImgBox.Image as Bitmap;
+            for (var i = 0; i <= 5; i++) OperatingInfoBox.Items.Add(" ");
+
+            for (var x = 0; x <= 2; x++)
+            {
+                for (var y = 0; y <= 4; y++)
+                {
+                    int n = (im.GetPixel(x, y).R);
+                    if (n >= 250) n = 0;
+                    else n = 1;
+                    OperatingInfoBox.Items[y] = OperatingInfoBox.Items[y] + "  " + Convert.ToString(n);
+                    viewModel.Input[x, y] = n;
+                }
+            }
+            for (int count = 0; count < 10; count++)
+            {
+                var s = count.ToString() + ".txt";
+                viewModel.CurrentFile = s;
+                var sr = File.OpenText(s);
+                string line;
+                string[] s1;
+                var k = 0;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    s1 = line.Split(' ');
+                    for (var i = 0; i < s1.Length; i++)
+                    {
+                        if (k < 5)
+                        {
+                            viewModel.Web[count].weight[i, k] = Convert.ToInt32(s1[i]);
+                        }
+                    }
+                    k++;
+                }
+                sr.Close();
+                OperatingInfoBox.Items.Add("Загружен нейрон ["+count+"]");
+            }
+            viewModel.RecognizeWeb();
+            for (int i = 0; i<10; i++)
+            {
+                if (viewModel.Web[i].Rez())
+                    AnswerBox.Items.Add("Нейрон [" + i + "] - True");
+                else
+                    AnswerBox.Items.Add("Нейрон [" + i + "] - False");
+            }
         }
     }
 }

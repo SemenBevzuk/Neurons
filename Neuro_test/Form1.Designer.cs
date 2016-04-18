@@ -36,9 +36,16 @@
             this.TypeControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.SelectButton = new System.Windows.Forms.Button();
+            this.OperatingImgBox = new System.Windows.Forms.PictureBox();
+            this.OperatingInfoBox = new System.Windows.Forms.ListBox();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.AnswerBox = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
             this.TypeControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.OperatingImgBox)).BeginInit();
             this.SuspendLayout();
             // 
             // PictureBox
@@ -96,7 +103,7 @@
             // CleanFile
             // 
             this.CleanFile.ForeColor = System.Drawing.Color.Red;
-            this.CleanFile.Location = new System.Drawing.Point(94, 312);
+            this.CleanFile.Location = new System.Drawing.Point(94, 368);
             this.CleanFile.Name = "CleanFile";
             this.CleanFile.Size = new System.Drawing.Size(105, 78);
             this.CleanFile.TabIndex = 8;
@@ -209,6 +216,10 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.AnswerBox);
+            this.tabPage2.Controls.Add(this.OperatingInfoBox);
+            this.tabPage2.Controls.Add(this.OperatingImgBox);
+            this.tabPage2.Controls.Add(this.SelectButton);
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -216,6 +227,50 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // SelectButton
+            // 
+            this.SelectButton.Location = new System.Drawing.Point(42, 46);
+            this.SelectButton.Name = "SelectButton";
+            this.SelectButton.Size = new System.Drawing.Size(112, 55);
+            this.SelectButton.TabIndex = 0;
+            this.SelectButton.Text = "Выбрать файл";
+            this.SelectButton.UseVisualStyleBackColor = true;
+            this.SelectButton.Click += new System.EventHandler(this.SelectButton_Click);
+            // 
+            // OperatingImgBox
+            // 
+            this.OperatingImgBox.Location = new System.Drawing.Point(42, 132);
+            this.OperatingImgBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.OperatingImgBox.Name = "OperatingImgBox";
+            this.OperatingImgBox.Size = new System.Drawing.Size(105, 138);
+            this.OperatingImgBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.OperatingImgBox.TabIndex = 1;
+            this.OperatingImgBox.TabStop = false;
+            // 
+            // OperatingInfoBox
+            // 
+            this.OperatingInfoBox.FormattingEnabled = true;
+            this.OperatingInfoBox.HorizontalScrollbar = true;
+            this.OperatingInfoBox.ItemHeight = 20;
+            this.OperatingInfoBox.Location = new System.Drawing.Point(195, 46);
+            this.OperatingInfoBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.OperatingInfoBox.Name = "OperatingInfoBox";
+            this.OperatingInfoBox.Size = new System.Drawing.Size(430, 224);
+            this.OperatingInfoBox.TabIndex = 6;
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // AnswerBox
+            // 
+            this.AnswerBox.FormattingEnabled = true;
+            this.AnswerBox.ItemHeight = 20;
+            this.AnswerBox.Location = new System.Drawing.Point(195, 298);
+            this.AnswerBox.Name = "AnswerBox";
+            this.AnswerBox.Size = new System.Drawing.Size(430, 224);
+            this.AnswerBox.TabIndex = 7;
             // 
             // Form1
             // 
@@ -233,6 +288,8 @@
             this.TypeControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.OperatingImgBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -254,6 +311,11 @@
         private System.Windows.Forms.TabControl TypeControl;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.ListBox OperatingInfoBox;
+        private System.Windows.Forms.PictureBox OperatingImgBox;
+        private System.Windows.Forms.Button SelectButton;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ListBox AnswerBox;
     }
 }
 
