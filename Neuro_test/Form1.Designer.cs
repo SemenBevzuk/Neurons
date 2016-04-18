@@ -41,6 +41,7 @@
             this.OperatingInfoBox = new System.Windows.Forms.ListBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.AnswerBox = new System.Windows.Forms.ListBox();
+            this.TitleLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
             this.TypeControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -211,11 +212,12 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(681, 540);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Обучение";
+            this.tabPage1.Text = "Режим обучения";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.TitleLabel);
             this.tabPage2.Controls.Add(this.AnswerBox);
             this.tabPage2.Controls.Add(this.OperatingInfoBox);
             this.tabPage2.Controls.Add(this.OperatingImgBox);
@@ -225,12 +227,12 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(681, 540);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Режим распознавания";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // SelectButton
             // 
-            this.SelectButton.Location = new System.Drawing.Point(42, 46);
+            this.SelectButton.Location = new System.Drawing.Point(42, 120);
             this.SelectButton.Name = "SelectButton";
             this.SelectButton.Size = new System.Drawing.Size(112, 55);
             this.SelectButton.TabIndex = 0;
@@ -240,7 +242,7 @@
             // 
             // OperatingImgBox
             // 
-            this.OperatingImgBox.Location = new System.Drawing.Point(42, 132);
+            this.OperatingImgBox.Location = new System.Drawing.Point(42, 234);
             this.OperatingImgBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.OperatingImgBox.Name = "OperatingImgBox";
             this.OperatingImgBox.Size = new System.Drawing.Size(105, 138);
@@ -253,7 +255,7 @@
             this.OperatingInfoBox.FormattingEnabled = true;
             this.OperatingInfoBox.HorizontalScrollbar = true;
             this.OperatingInfoBox.ItemHeight = 20;
-            this.OperatingInfoBox.Location = new System.Drawing.Point(195, 46);
+            this.OperatingInfoBox.Location = new System.Drawing.Point(195, 66);
             this.OperatingInfoBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.OperatingInfoBox.Name = "OperatingInfoBox";
             this.OperatingInfoBox.Size = new System.Drawing.Size(430, 224);
@@ -272,6 +274,15 @@
             this.AnswerBox.Size = new System.Drawing.Size(430, 224);
             this.AnswerBox.TabIndex = 7;
             // 
+            // TitleLabel
+            // 
+            this.TitleLabel.AutoSize = true;
+            this.TitleLabel.Location = new System.Drawing.Point(249, 22);
+            this.TitleLabel.Name = "TitleLabel";
+            this.TitleLabel.Size = new System.Drawing.Size(182, 20);
+            this.TitleLabel.TabIndex = 14;
+            this.TitleLabel.Text = "Режим распознавания.";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -289,6 +300,7 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OperatingImgBox)).EndInit();
             this.ResumeLayout(false);
 
@@ -316,6 +328,7 @@
         private System.Windows.Forms.Button SelectButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ListBox AnswerBox;
+        private System.Windows.Forms.Label TitleLabel;
     }
 }
 
