@@ -44,7 +44,7 @@ namespace Neuro_test
                 }
             }
         }
-        public void ReadFile(string fileName)
+        private void ReadFile(string fileName)
         {
             Path = fileName;
             UpdateOperatingInfoBox();
@@ -54,8 +54,9 @@ namespace Neuro_test
             }
         }
 
-        public void RecognizeSymbol()
+        public void RecognizeSymbolFromFile(string fileName)
         {
+            ReadFile(fileName);
             for (int count = 0; count < 10; count++)
             {
                 var s = count + ".txt";
@@ -83,7 +84,7 @@ namespace Neuro_test
             ResultBox.Clear();
             for (int i = 0; i < 10; i++)
             {
-                if (Web[i].Rez())
+                if (Web[i].Result())
                     ResultBox.Add("Нейрон [" + i + "] - True");
                 else
                     ResultBox.Add("Нейрон [" + i + "] - False");

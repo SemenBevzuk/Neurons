@@ -48,7 +48,7 @@ namespace Neuro_test
             }
         }
 
-        public bool Rez()
+        public bool Result()
         {
             if (sum >= limit)
                 return true;
