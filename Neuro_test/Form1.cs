@@ -19,13 +19,13 @@ namespace WindowsFormsApplication1
             recognitionViewModel = new RecognitionViewModel();
             InitializeComponent();
 
-            BackgroundWorker.DoWork += (o, args) =>//лямбда-выражения
+            BackgroundWorker.DoWork += (o, args) =>
             {
                 learningViewModel.AutoTraining(o as BackgroundWorker);
             };
             BackgroundWorker.ProgressChanged += (o, args) =>
             {
-                LabelProgressBar.Text = args.ProgressPercentage.ToString();
+                LabelProgressBar.Text = args.ProgressPercentage.ToString()+"%";
                 ProgressBar.Value = args.ProgressPercentage;
             };
             BackgroundWorker.RunWorkerCompleted += (o, args) =>
@@ -33,18 +33,6 @@ namespace WindowsFormsApplication1
                 LearningViewModelBind();
             };
         }
-
-        //private void OnResetProgressBar(object sender, EventArgs e)
-        //{
-        //    ProgressBar.Value = 0;
-        //    LabelProgressBar.Text = "";
-        //}
-
-        //private void OnNeuronCalculated(object sender, int i)
-        //{
-        //    ProgressBar.PerformStep();
-        //    LabelProgressBar.Text = i.ToString();
-        //}
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -121,7 +109,6 @@ namespace WindowsFormsApplication1
 
         private void AutoTrainingButton_Click(object sender, EventArgs e)
         {
-            //BackgroundWorker.ReportProgress(0);
             BackgroundWorker.RunWorkerAsync(); //поток
         }
 

@@ -11,7 +11,7 @@ namespace Neuro_test
 {
     public class LearningViewModel
     {
-        public string CurrentFile;
+        public string CurrentFile = "0.txt";
         public Neuron Homer;
         public int ImageCounter = -1;
         public List<string> InfoBox = new List<string>();
@@ -136,6 +136,7 @@ namespace Neuro_test
         }
         public void CleanAllFiles()
         {
+            InfoBox.Clear();
             for (int j = 0; j<10; j++)
             {
                 var s = "";
@@ -151,7 +152,6 @@ namespace Neuro_test
                     SW.WriteLine(s);
                 }
                 SW.Close();
-                InfoBox.Clear();
                 InfoBox.Add("Память ["+j+"] очищена.");
                 UpdateFileBox();
             }
@@ -292,10 +292,9 @@ namespace Neuro_test
                 Homer.name = i.ToString();
                 NeuronTraining();
                 backgroundWorker.ReportProgress((i+1)*10);
-                Thread.Sleep(2000);
             }
             InfoBox.Clear();
-            InfoBox.Add("Обчение завершено.");
+            InfoBox.Add("Обучение завершено.");
         }
     }
 }

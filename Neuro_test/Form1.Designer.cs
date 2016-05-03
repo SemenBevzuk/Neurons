@@ -35,6 +35,11 @@
             this.ImgLable = new System.Windows.Forms.Label();
             this.TypeControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.LabelProgressBar = new System.Windows.Forms.Label();
+            this.ProgressBar = new System.Windows.Forms.ProgressBar();
+            this.CleanAllFiles = new System.Windows.Forms.Button();
+            this.AutoTrainingButton = new System.Windows.Forms.Button();
+            this.IndicatorRecognition = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.TitleLabel = new System.Windows.Forms.Label();
             this.AnswerBox = new System.Windows.Forms.ListBox();
@@ -42,26 +47,21 @@
             this.OperatingImgBox = new System.Windows.Forms.PictureBox();
             this.SelectButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.IndicatorRecognition = new System.Windows.Forms.PictureBox();
-            this.AutoTrainingButton = new System.Windows.Forms.Button();
-            this.CleanAllFiles = new System.Windows.Forms.Button();
-            this.ProgressBar = new System.Windows.Forms.ProgressBar();
-            this.LabelProgressBar = new System.Windows.Forms.Label();
             this.BackgroundWorker = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
             this.TypeControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.IndicatorRecognition)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OperatingImgBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.IndicatorRecognition)).BeginInit();
             this.SuspendLayout();
             // 
             // PictureBox
             // 
-            this.PictureBox.Location = new System.Drawing.Point(83, 131);
+            this.PictureBox.Location = new System.Drawing.Point(74, 131);
             this.PictureBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.PictureBox.Name = "PictureBox";
-            this.PictureBox.Size = new System.Drawing.Size(105, 138);
+            this.PictureBox.Size = new System.Drawing.Size(127, 138);
             this.PictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PictureBox.TabIndex = 0;
             this.PictureBox.TabStop = false;
@@ -227,6 +227,52 @@
             this.tabPage1.Text = "Режим обучения";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // LabelProgressBar
+            // 
+            this.LabelProgressBar.AutoSize = true;
+            this.LabelProgressBar.BackColor = System.Drawing.Color.Transparent;
+            this.LabelProgressBar.Location = new System.Drawing.Point(321, 603);
+            this.LabelProgressBar.Name = "LabelProgressBar";
+            this.LabelProgressBar.Size = new System.Drawing.Size(0, 20);
+            this.LabelProgressBar.TabIndex = 19;
+            // 
+            // ProgressBar
+            // 
+            this.ProgressBar.Location = new System.Drawing.Point(79, 588);
+            this.ProgressBar.Name = "ProgressBar";
+            this.ProgressBar.Size = new System.Drawing.Size(540, 53);
+            this.ProgressBar.Step = 1;
+            this.ProgressBar.TabIndex = 18;
+            // 
+            // CleanAllFiles
+            // 
+            this.CleanAllFiles.ForeColor = System.Drawing.Color.Red;
+            this.CleanAllFiles.Location = new System.Drawing.Point(38, 456);
+            this.CleanAllFiles.Name = "CleanAllFiles";
+            this.CleanAllFiles.Size = new System.Drawing.Size(193, 78);
+            this.CleanAllFiles.TabIndex = 17;
+            this.CleanAllFiles.Text = "Очистить память текущей сети";
+            this.CleanAllFiles.UseVisualStyleBackColor = true;
+            this.CleanAllFiles.Click += new System.EventHandler(this.CleanAllFiles_Click);
+            // 
+            // AutoTrainingButton
+            // 
+            this.AutoTrainingButton.Location = new System.Drawing.Point(448, 364);
+            this.AutoTrainingButton.Name = "AutoTrainingButton";
+            this.AutoTrainingButton.Size = new System.Drawing.Size(171, 81);
+            this.AutoTrainingButton.TabIndex = 16;
+            this.AutoTrainingButton.Text = "Автоматическое обучение сети";
+            this.AutoTrainingButton.UseVisualStyleBackColor = true;
+            this.AutoTrainingButton.Click += new System.EventHandler(this.AutoTrainingButton_Click);
+            // 
+            // IndicatorRecognition
+            // 
+            this.IndicatorRecognition.Location = new System.Drawing.Point(83, 277);
+            this.IndicatorRecognition.Name = "IndicatorRecognition";
+            this.IndicatorRecognition.Size = new System.Drawing.Size(105, 85);
+            this.IndicatorRecognition.TabIndex = 15;
+            this.IndicatorRecognition.TabStop = false;
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.TitleLabel);
@@ -237,7 +283,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(681, 540);
+            this.tabPage2.Size = new System.Drawing.Size(687, 754);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Режим распознавания";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -295,52 +341,6 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // IndicatorRecognition
-            // 
-            this.IndicatorRecognition.Location = new System.Drawing.Point(83, 277);
-            this.IndicatorRecognition.Name = "IndicatorRecognition";
-            this.IndicatorRecognition.Size = new System.Drawing.Size(105, 85);
-            this.IndicatorRecognition.TabIndex = 15;
-            this.IndicatorRecognition.TabStop = false;
-            // 
-            // AutoTrainingButton
-            // 
-            this.AutoTrainingButton.Location = new System.Drawing.Point(448, 364);
-            this.AutoTrainingButton.Name = "AutoTrainingButton";
-            this.AutoTrainingButton.Size = new System.Drawing.Size(171, 81);
-            this.AutoTrainingButton.TabIndex = 16;
-            this.AutoTrainingButton.Text = "Автоматическое обучение сети";
-            this.AutoTrainingButton.UseVisualStyleBackColor = true;
-            this.AutoTrainingButton.Click += new System.EventHandler(this.AutoTrainingButton_Click);
-            // 
-            // CleanAllFiles
-            // 
-            this.CleanAllFiles.ForeColor = System.Drawing.Color.Red;
-            this.CleanAllFiles.Location = new System.Drawing.Point(38, 456);
-            this.CleanAllFiles.Name = "CleanAllFiles";
-            this.CleanAllFiles.Size = new System.Drawing.Size(193, 78);
-            this.CleanAllFiles.TabIndex = 17;
-            this.CleanAllFiles.Text = "Очистить память текущей сети";
-            this.CleanAllFiles.UseVisualStyleBackColor = true;
-            this.CleanAllFiles.Click += new System.EventHandler(this.CleanAllFiles_Click);
-            // 
-            // ProgressBar
-            // 
-            this.ProgressBar.Location = new System.Drawing.Point(79, 588);
-            this.ProgressBar.Name = "ProgressBar";
-            this.ProgressBar.Size = new System.Drawing.Size(540, 53);
-            this.ProgressBar.Step = 1;
-            this.ProgressBar.TabIndex = 18;
-            // 
-            // LabelProgressBar
-            // 
-            this.LabelProgressBar.AutoSize = true;
-            this.LabelProgressBar.BackColor = System.Drawing.Color.Transparent;
-            this.LabelProgressBar.Location = new System.Drawing.Point(321, 603);
-            this.LabelProgressBar.Name = "LabelProgressBar";
-            this.LabelProgressBar.Size = new System.Drawing.Size(0, 20);
-            this.LabelProgressBar.TabIndex = 19;
-            // 
             // BackgroundWorker
             // 
             this.BackgroundWorker.WorkerReportsProgress = true;
@@ -349,7 +349,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(699, 798);
+            this.ClientSize = new System.Drawing.Size(699, 728);
             this.Controls.Add(this.TypeControl);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
@@ -361,10 +361,10 @@
             this.TypeControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.IndicatorRecognition)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OperatingImgBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.IndicatorRecognition)).EndInit();
             this.ResumeLayout(false);
 
         }
