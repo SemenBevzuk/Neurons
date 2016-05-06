@@ -55,6 +55,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="MultilayerNetworkViewModel.cs" />
     <Compile Include="TwoLayersNetwork\ErrorProvider.cs" />
     <Compile Include="TwoLayersNetwork\IErrorProvider.cs" />
     <Compile Include="TwoLayersNetwork\InputLevel.cs" />

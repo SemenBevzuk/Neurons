@@ -12,6 +12,17 @@ namespace Neuro_test.TwoLayersNetwork
 
         private double sum; //e = input_signal*weight + ...;
         private IList<double> weight; //веса в него входящих
+        private static Random rnd = new Random();
+        public NeuronWithActivationFunction(IList<ISignalProvider> inputSignalFromNeuro)
+        {
+            
+            this.inputSignalFromNeuro = inputSignalFromNeuro;
+            weight = new List<double>();
+            for (int i = 0; i<inputSignalFromNeuro.Count; i++)
+            {
+                weight.Add(rnd.NextDouble()/10.0);
+            }
+        }
 
         public NeuronWithActivationFunction(IList<ISignalProvider> inputSignalFromNeuro, IList<double> weight)
             // IList<NeuronWithActivationFunction> nextLayer)

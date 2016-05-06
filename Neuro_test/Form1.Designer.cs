@@ -46,14 +46,28 @@
             this.OperatingInfoBox = new System.Windows.Forms.ListBox();
             this.OperatingImgBox = new System.Windows.Forms.PictureBox();
             this.SelectButton = new System.Windows.Forms.Button();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.NetAnswer = new System.Windows.Forms.TextBox();
+            this.CurrentNumber = new System.Windows.Forms.TextBox();
+            this.StartLearning = new System.Windows.Forms.Button();
+            this.SaveNetwork = new System.Windows.Forms.Button();
+            this.NextImage = new System.Windows.Forms.Button();
+            this.InfoBoxLearningMultilayer = new System.Windows.Forms.ListBox();
+            this.pictureBoxNumber = new System.Windows.Forms.PictureBox();
+            this.downloadLearning = new System.Windows.Forms.Button();
+            this.downloadTests = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.BackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.label1 = new System.Windows.Forms.Label();
+            this.LoadNet = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
             this.TypeControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.IndicatorRecognition)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OperatingImgBox)).BeginInit();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNumber)).BeginInit();
             this.SuspendLayout();
             // 
             // PictureBox
@@ -194,10 +208,11 @@
             // 
             this.TypeControl.Controls.Add(this.tabPage1);
             this.TypeControl.Controls.Add(this.tabPage2);
+            this.TypeControl.Controls.Add(this.tabPage3);
             this.TypeControl.Location = new System.Drawing.Point(2, 3);
             this.TypeControl.Name = "TypeControl";
             this.TypeControl.SelectedIndex = 0;
-            this.TypeControl.Size = new System.Drawing.Size(695, 787);
+            this.TypeControl.Size = new System.Drawing.Size(1470, 787);
             this.TypeControl.TabIndex = 15;
             // 
             // tabPage1
@@ -222,9 +237,9 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(687, 754);
+            this.tabPage1.Size = new System.Drawing.Size(1462, 754);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Режим обучения";
+            this.tabPage1.Text = "Режим обучения однослойной сети";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // LabelProgressBar
@@ -283,9 +298,9 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(687, 754);
+            this.tabPage2.Size = new System.Drawing.Size(1462, 754);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Режим распознавания";
+            this.tabPage2.Text = "Режим распознавания однослойной сети";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // TitleLabel
@@ -337,6 +352,107 @@
             this.SelectButton.UseVisualStyleBackColor = true;
             this.SelectButton.Click += new System.EventHandler(this.SelectButton_Click);
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.LoadNet);
+            this.tabPage3.Controls.Add(this.label1);
+            this.tabPage3.Controls.Add(this.NetAnswer);
+            this.tabPage3.Controls.Add(this.CurrentNumber);
+            this.tabPage3.Controls.Add(this.StartLearning);
+            this.tabPage3.Controls.Add(this.SaveNetwork);
+            this.tabPage3.Controls.Add(this.NextImage);
+            this.tabPage3.Controls.Add(this.InfoBoxLearningMultilayer);
+            this.tabPage3.Controls.Add(this.pictureBoxNumber);
+            this.tabPage3.Controls.Add(this.downloadLearning);
+            this.tabPage3.Controls.Add(this.downloadTests);
+            this.tabPage3.Location = new System.Drawing.Point(4, 29);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(1462, 754);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Многослойная сеть";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // NetAnswer
+            // 
+            this.NetAnswer.Location = new System.Drawing.Point(1113, 159);
+            this.NetAnswer.Name = "NetAnswer";
+            this.NetAnswer.Size = new System.Drawing.Size(55, 26);
+            this.NetAnswer.TabIndex = 9;
+            // 
+            // CurrentNumber
+            // 
+            this.CurrentNumber.Location = new System.Drawing.Point(1051, 260);
+            this.CurrentNumber.Name = "CurrentNumber";
+            this.CurrentNumber.Size = new System.Drawing.Size(59, 26);
+            this.CurrentNumber.TabIndex = 8;
+            // 
+            // StartLearning
+            // 
+            this.StartLearning.Location = new System.Drawing.Point(283, 24);
+            this.StartLearning.Name = "StartLearning";
+            this.StartLearning.Size = new System.Drawing.Size(159, 55);
+            this.StartLearning.TabIndex = 7;
+            this.StartLearning.Text = "Обучить сеть";
+            this.StartLearning.UseVisualStyleBackColor = true;
+            this.StartLearning.Click += new System.EventHandler(this.StartLearning_Click);
+            // 
+            // SaveNetwork
+            // 
+            this.SaveNetwork.Location = new System.Drawing.Point(174, 349);
+            this.SaveNetwork.Name = "SaveNetwork";
+            this.SaveNetwork.Size = new System.Drawing.Size(137, 42);
+            this.SaveNetwork.TabIndex = 6;
+            this.SaveNetwork.Text = "Сохранить сеть";
+            this.SaveNetwork.UseVisualStyleBackColor = true;
+            this.SaveNetwork.Click += new System.EventHandler(this.SaveNetwork_Click);
+            // 
+            // NextImage
+            // 
+            this.NextImage.Location = new System.Drawing.Point(1152, 246);
+            this.NextImage.Name = "NextImage";
+            this.NextImage.Size = new System.Drawing.Size(114, 55);
+            this.NextImage.TabIndex = 5;
+            this.NextImage.Text = "Следующий";
+            this.NextImage.UseVisualStyleBackColor = true;
+            this.NextImage.Click += new System.EventHandler(this.NextImage_Click);
+            // 
+            // InfoBoxLearningMultilayer
+            // 
+            this.InfoBoxLearningMultilayer.FormattingEnabled = true;
+            this.InfoBoxLearningMultilayer.ItemHeight = 20;
+            this.InfoBoxLearningMultilayer.Location = new System.Drawing.Point(44, 117);
+            this.InfoBoxLearningMultilayer.Name = "InfoBoxLearningMultilayer";
+            this.InfoBoxLearningMultilayer.Size = new System.Drawing.Size(398, 184);
+            this.InfoBoxLearningMultilayer.TabIndex = 3;
+            // 
+            // pictureBoxNumber
+            // 
+            this.pictureBoxNumber.Location = new System.Drawing.Point(1186, 132);
+            this.pictureBoxNumber.Name = "pictureBoxNumber";
+            this.pictureBoxNumber.Size = new System.Drawing.Size(80, 83);
+            this.pictureBoxNumber.TabIndex = 2;
+            this.pictureBoxNumber.TabStop = false;
+            // 
+            // downloadLearning
+            // 
+            this.downloadLearning.Location = new System.Drawing.Point(44, 24);
+            this.downloadLearning.Name = "downloadLearning";
+            this.downloadLearning.Size = new System.Drawing.Size(215, 55);
+            this.downloadLearning.TabIndex = 1;
+            this.downloadLearning.Text = "Загрузить базу для обучения";
+            this.downloadLearning.UseVisualStyleBackColor = true;
+            this.downloadLearning.Click += new System.EventHandler(this.downloadLearning_Click);
+            // 
+            // downloadTests
+            // 
+            this.downloadTests.Location = new System.Drawing.Point(1051, 15);
+            this.downloadTests.Name = "downloadTests";
+            this.downloadTests.Size = new System.Drawing.Size(215, 55);
+            this.downloadTests.TabIndex = 0;
+            this.downloadTests.Text = "Загрузить тестовую базу";
+            this.downloadTests.UseVisualStyleBackColor = true;
+            this.downloadTests.Click += new System.EventHandler(this.downloadTests_Click);
+            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
@@ -345,11 +461,30 @@
             // 
             this.BackgroundWorker.WorkerReportsProgress = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(1010, 162);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(100, 20);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "Ответ сети:";
+            // 
+            // LoadNet
+            // 
+            this.LoadNet.Location = new System.Drawing.Point(501, 24);
+            this.LoadNet.Name = "LoadNet";
+            this.LoadNet.Size = new System.Drawing.Size(181, 54);
+            this.LoadNet.TabIndex = 11;
+            this.LoadNet.Text = "Загрузить сеть";
+            this.LoadNet.UseVisualStyleBackColor = true;
+            this.LoadNet.Click += new System.EventHandler(this.LoadNet_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(699, 728);
+            this.ClientSize = new System.Drawing.Size(1473, 795);
             this.Controls.Add(this.TypeControl);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
@@ -365,6 +500,9 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OperatingImgBox)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNumber)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -398,6 +536,18 @@
         private System.Windows.Forms.ProgressBar ProgressBar;
         private System.Windows.Forms.Label LabelProgressBar;
         private System.ComponentModel.BackgroundWorker BackgroundWorker;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Button NextImage;
+        private System.Windows.Forms.ListBox InfoBoxLearningMultilayer;
+        private System.Windows.Forms.PictureBox pictureBoxNumber;
+        private System.Windows.Forms.Button downloadLearning;
+        private System.Windows.Forms.Button downloadTests;
+        private System.Windows.Forms.Button SaveNetwork;
+        private System.Windows.Forms.Button StartLearning;
+        private System.Windows.Forms.TextBox NetAnswer;
+        private System.Windows.Forms.TextBox CurrentNumber;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button LoadNet;
     }
 }
 

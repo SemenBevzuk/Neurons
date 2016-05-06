@@ -12,11 +12,13 @@ namespace WindowsFormsApplication1
     {
         private readonly LearningViewModel learningViewModel;
         private readonly RecognitionViewModel recognitionViewModel;
+        private readonly MultilayerNetworkViewModel multilayerNetworkViewModel;
 
         public Form1()
         {
             learningViewModel = new LearningViewModel();
             recognitionViewModel = new RecognitionViewModel();
+            multilayerNetworkViewModel = new MultilayerNetworkViewModel();
             InitializeComponent();
 
             BackgroundWorker.DoWork += (o, args) =>
@@ -42,6 +44,8 @@ namespace WindowsFormsApplication1
                 recognitionViewModel.Web[i] = new Neuron(3, 5, learningViewModel.Input, i.ToString());
             }
             LearningViewModelBind();
+
+            //загрузка многослойной сети
         }
 
         // отображение данных из вьюмодели
@@ -62,6 +66,15 @@ namespace WindowsFormsApplication1
             FileInfo.Items.AddRange(learningViewModel.FileBox.ToArray());
             PictureBox.Image = Image.FromFile(learningViewModel.Path);
             IndicatorRecognition.Image = Image.FromFile(learningViewModel.IndicatorPath);
+        }
+
+        private void MultilayerNetworkViewModelBind()
+        {
+            InfoBoxLearningMultilayer.Items.Clear();
+            InfoBoxLearningMultilayer.Items.AddRange(multilayerNetworkViewModel.InfoMultilayer.ToArray());
+            pictureBoxNumber.Image = multilayerNetworkViewModel.CurrentBitmap;
+            NetAnswer.Text = multilayerNetworkViewModel.NetAnswer.ToString();
+            CurrentNumber.Text = multilayerNetworkViewModel.CurrentImage.ToString();
         }
 
         private void incorrect_Click(object sender, EventArgs e)
@@ -116,6 +129,46 @@ namespace WindowsFormsApplication1
         {
             learningViewModel.CleanAllFiles();
             LearningViewModelBind();
+        }
+
+        private void downloadLearning_Click(object sender, EventArgs e)
+        {
+            multilayerNetworkViewModel.LoadLearningData();
+            MultilayerNetworkViewModelBind();
+        }
+
+        private void SaveNetwork_Click(object sender, EventArgs e)
+        {
+            multilayerNetworkViewModel.SaveNetwork();
+            MultilayerNetworkViewModelBind();
+        }
+
+        private void StartLearning_Click(object sender, EventArgs e)
+        {
+            multilayerNetworkViewModel.TrainNetwork();
+            multilayerNetworkViewModel.SaveNetwork();
+            MultilayerNetworkViewModelBind();
+        }
+
+        private void downloadTests_Click(object sender, EventArgs e)
+        {
+            multilayerNetworkViewModel.LoadTestingData();
+            multilayerNetworkViewModel.LoadBitmap();
+            multilayerNetworkViewModel.GetAnswer();
+            MultilayerNetworkViewModelBind();
+        }
+
+        private void NextImage_Click(object sender, EventArgs e)
+        {
+            multilayerNetworkViewModel.NextBitmap();
+            multilayerNetworkViewModel.GetAnswer();
+            MultilayerNetworkViewModelBind();
+        }
+
+        private void LoadNet_Click(object sender, EventArgs e)
+        {
+            multilayerNetworkViewModel.LoadNetwork();
+            MultilayerNetworkViewModelBind();
         }
     }
 }
