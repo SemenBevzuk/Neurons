@@ -10,20 +10,39 @@ namespace Neuro_test.TwoLayersNetwork
         private readonly IList<NeuronWithActivationFunction> HiddenLayer;
         private readonly IList<NeuronWithActivationFunction> OutputLayer;
         private readonly IList<ErrorProvider> Errors;
-
-        private readonly double speed = 1; //коэффициент  0.5
+        private readonly double speed = 0.5; //коэффициент  0.5
         private const int SIZE = 28;
 
 
         public int GetAnswer()
         {
-            var max = OutputLayer[0].Signal;
+            //var max = OutputLayer[0].Signal;
+            //var pos = 0;
+            //for (var i = 0; i < OutputLayer.Count; i++)
+            //{
+            //    if (OutputLayer[i].Signal > max) 
+            //    {
+            //        max = OutputLayer[i].Signal;
+            //        pos = i;
+            //    }
+            //}
+            //return pos;
+            for (int i = 0; i<20; i++)
+            {
+                HiddenLayer[i].CalculateSignalOUT();
+            }
+            for (int i = 0; i<10; i++)
+            {
+                OutputLayer[i].CalculateSignalOUT();
+            }
+
+            var max = OutputLayer[0].SignalOUT;
             var pos = 0;
             for (var i = 0; i < OutputLayer.Count; i++)
             {
-                if (OutputLayer[i].Signal > max) 
+                if (OutputLayer[i].SignalOUT > max)
                 {
-                    max = OutputLayer[i].Signal;
+                    max = OutputLayer[i].SignalOUT;
                     pos = i;
                 }
             }
@@ -70,11 +89,16 @@ namespace Neuro_test.TwoLayersNetwork
             }
         }
 
+        private double Sigmoid(double x)
+        {
+            return 1 / (1 + Math.Exp(-x));
+        }
+
         public void SetInput(IList<byte> input)
         {
             for (var i = 0; i < input.Count; i++)
             {
-                Inputs[i].Signal = input[i];
+                Inputs[i].Signal = Sigmoid(input[i]);
             }
         }
 
@@ -90,22 +114,28 @@ namespace Neuro_test.TwoLayersNetwork
                     else
                         Errors[i].Error = 0 - OutputLayer[result].Signal;
                 }
-                
+
+                int j = 0;
                 foreach (var neuron in OutputLayer)
                 {
-                    neuron.RecalculateDelta();
+                    //neuron.RecalculateDelta();
+                    neuron.RecalculateDeltaOutput(Errors[j].Error);
+                    j++;
                 }
                 foreach (var neuron in HiddenLayer)
                 {
-                    neuron.RecalculateDelta();
+                    //neuron.RecalculateDelta();
+                    neuron.RecalculateDeltaHidden();
                 }
                 foreach (var neuron in HiddenLayer)
                 {
-                    neuron.RecalculateWeights(speed);
+                    //neuron.RecalculateWeights(speed);
+                    neuron.RecalculateWeightsAnother(speed);
                 }
                 foreach (var neuron in OutputLayer)
                 {
-                    neuron.RecalculateWeights(speed);
+                    //neuron.RecalculateWeights(speed);
+                    neuron.RecalculateWeightsAnother(speed);
                 }
             }
         }

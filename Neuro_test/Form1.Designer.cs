@@ -47,6 +47,8 @@
             this.OperatingImgBox = new System.Windows.Forms.PictureBox();
             this.SelectButton = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.LoadNet = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.NetAnswer = new System.Windows.Forms.TextBox();
             this.CurrentNumber = new System.Windows.Forms.TextBox();
             this.StartLearning = new System.Windows.Forms.Button();
@@ -58,8 +60,7 @@
             this.downloadTests = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.BackgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.label1 = new System.Windows.Forms.Label();
-            this.LoadNet = new System.Windows.Forms.Button();
+            this.PrevImage = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
             this.TypeControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -354,6 +355,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.PrevImage);
             this.tabPage3.Controls.Add(this.LoadNet);
             this.tabPage3.Controls.Add(this.label1);
             this.tabPage3.Controls.Add(this.NetAnswer);
@@ -371,6 +373,25 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Многослойная сеть";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // LoadNet
+            // 
+            this.LoadNet.Location = new System.Drawing.Point(501, 24);
+            this.LoadNet.Name = "LoadNet";
+            this.LoadNet.Size = new System.Drawing.Size(181, 54);
+            this.LoadNet.TabIndex = 11;
+            this.LoadNet.Text = "Загрузить сеть";
+            this.LoadNet.UseVisualStyleBackColor = true;
+            this.LoadNet.Click += new System.EventHandler(this.LoadNet_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(1010, 162);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(100, 20);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "Ответ сети:";
             // 
             // NetAnswer
             // 
@@ -461,24 +482,15 @@
             // 
             this.BackgroundWorker.WorkerReportsProgress = true;
             // 
-            // label1
+            // PrevImage
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1010, 162);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 20);
-            this.label1.TabIndex = 10;
-            this.label1.Text = "Ответ сети:";
-            // 
-            // LoadNet
-            // 
-            this.LoadNet.Location = new System.Drawing.Point(501, 24);
-            this.LoadNet.Name = "LoadNet";
-            this.LoadNet.Size = new System.Drawing.Size(181, 54);
-            this.LoadNet.TabIndex = 11;
-            this.LoadNet.Text = "Загрузить сеть";
-            this.LoadNet.UseVisualStyleBackColor = true;
-            this.LoadNet.Click += new System.EventHandler(this.LoadNet_Click);
+            this.PrevImage.Location = new System.Drawing.Point(1152, 320);
+            this.PrevImage.Name = "PrevImage";
+            this.PrevImage.Size = new System.Drawing.Size(114, 55);
+            this.PrevImage.TabIndex = 12;
+            this.PrevImage.Text = " Предыдущий";
+            this.PrevImage.UseVisualStyleBackColor = false;
+            this.PrevImage.Click += new System.EventHandler(this.PrevImage_Click);
             // 
             // Form1
             // 
@@ -548,6 +560,7 @@
         private System.Windows.Forms.TextBox CurrentNumber;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button LoadNet;
+        private System.Windows.Forms.Button PrevImage;
     }
 }
 

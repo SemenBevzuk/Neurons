@@ -152,7 +152,8 @@ namespace WindowsFormsApplication1
 
         private void downloadTests_Click(object sender, EventArgs e)
         {
-            multilayerNetworkViewModel.LoadTestingData();
+            //multilayerNetworkViewModel.LoadTestingData();
+            multilayerNetworkViewModel.LoadLearningData();
             multilayerNetworkViewModel.LoadBitmap();
             multilayerNetworkViewModel.GetAnswer();
             MultilayerNetworkViewModelBind();
@@ -168,6 +169,13 @@ namespace WindowsFormsApplication1
         private void LoadNet_Click(object sender, EventArgs e)
         {
             multilayerNetworkViewModel.LoadNetwork();
+            MultilayerNetworkViewModelBind();
+        }
+
+        private void PrevImage_Click(object sender, EventArgs e)
+        {
+            multilayerNetworkViewModel.PrevBitmap();
+            multilayerNetworkViewModel.GetAnswer();
             MultilayerNetworkViewModelBind();
         }
     }

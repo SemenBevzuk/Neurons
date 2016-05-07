@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Neuro_test.TwoLayersNetwork
@@ -11,8 +12,13 @@ namespace Neuro_test.TwoLayersNetwork
             Signals = new ISignalProvider[input.Count];
             for (var i = 0; i < input.Count; i++)
             {
-                Signals[i] = new Pixel(input[i]);
+                Signals[i] = new Pixel(Sigmoid(input[i]));
             }
+        }
+        //добавим функцию активации в входной слой
+        private double Sigmoid(double x)
+        {
+            return 1 / (1 + Math.Exp(-x));
         }
     }
 }

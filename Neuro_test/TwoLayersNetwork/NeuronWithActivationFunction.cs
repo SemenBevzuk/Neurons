@@ -10,17 +10,28 @@ namespace Neuro_test.TwoLayersNetwork
         private double delta; //ошибка
         public IList<IErrorProvider> NextLayer;
 
+        public double SignalOUT;
         private double sum; //e = input_signal*weight + ...;
         private IList<double> weight; //веса в него входящих
         private static Random rnd = new Random();
-        public NeuronWithActivationFunction(IList<ISignalProvider> inputSignalFromNeuro)
+
+        public void CalculateSignalOUT()
         {
-            
-            this.inputSignalFromNeuro = inputSignalFromNeuro;
-            weight = new List<double>();
-            for (int i = 0; i<inputSignalFromNeuro.Count; i++)
+            sum = 0;
+            for (var i = 0; i < inputSignalFromNeuro.Count; i++)
             {
-                weight.Add(rnd.NextDouble()/10.0);
+                sum += inputSignalFromNeuro[i].Signal * weight[i];
+            }
+            SignalOUT = Sigmoid(sum);
+        }
+
+        public NeuronWithActivationFunction(IList<ISignalProvider> inputSignalFromNeuroOut)
+        {
+            this.inputSignalFromNeuro = inputSignalFromNeuroOut;
+            weight = new List<double>();
+            for (int i = 0; i<inputSignalFromNeuroOut.Count; i++)
+            {
+                weight.Add((rnd.NextDouble()-0.5)/1000.0);
             }
         }
 
@@ -59,7 +70,32 @@ namespace Neuro_test.TwoLayersNetwork
         {
             return delta*GetWeight(neuron);
         }
+        //тестовая часть
+        public void RecalculateDeltaOutput(double Error)
+        {
+            for (int i = 0; i<10; i++)
+            {
+                delta = Error*SigmoidDerivative(sum);
+            }
+        }
+        public void RecalculateDeltaHidden()
+        {
+            double newDelta = 0;
+            foreach (var rightNeuron in NextLayer)
+            {
+                newDelta += rightNeuron.GetWeightedError(this);
+            }
+            delta = newDelta*SigmoidDerivative(sum);
+        }
 
+        public void RecalculateWeightsAnother(double speed)
+        {
+            for (var i = 0; i < weight.Count; i++)
+            {
+                weight[i] = weight[i] + speed * delta * Sigmoid(sum);
+            }
+        }
+        //тестовая часть
         public void RecalculateDelta()
         {
             double newDelta = 0;
@@ -74,7 +110,7 @@ namespace Neuro_test.TwoLayersNetwork
         {
             for (var i = 0; i < weight.Count; i++)
             {
-                weight[i] += speed*delta*SigmoidDerivative(sum)*inputSignalFromNeuro[i].Signal;
+                weight[i] =weight[i] + speed*delta*SigmoidDerivative(sum)*inputSignalFromNeuro[i].Signal;
             }
         }
 

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Neuro_test.TwoLayersNetwork;
+using Newtonsoft.Json;
 
 namespace Neuro_test
 {
@@ -81,8 +82,8 @@ namespace Neuro_test
             BinaryReader brImages = new BinaryReader(ifsPixels);
             BinaryReader brLabels = new BinaryReader(ifsLabels);
 
-            int magic1 = brImages.ReadInt32(); 
-            magic1 = ReverseBytes(magic1); 
+            int magic1 = brImages.ReadInt32();
+            magic1 = ReverseBytes(magic1);
 
             int imageCount = brImages.ReadInt32();
             imageCount = ReverseBytes(imageCount);
@@ -100,7 +101,7 @@ namespace Neuro_test
 
             for (int di = 0; di < numImages; di++)
             {
-                for (int i = 0; i < 28; i++) 
+                for (int i = 0; i < 28; i++)
                 {
                     for (int j = 0; j < 28; j++)
                     {
@@ -109,7 +110,7 @@ namespace Neuro_test
                     }
                 }
 
-                byte lbl = brLabels.ReadByte(); 
+                byte lbl = brLabels.ReadByte();
                 DigitImage dImage = new DigitImage(28, 28, pixels, lbl);
                 result[di] = dImage;
             }
@@ -120,7 +121,7 @@ namespace Neuro_test
             InfoMultilayer.Add("Данные помещены в память.");
             //trainImages = result;
             return result;
-        } 
+        }
 
         public Bitmap MakeBitmap(DigitImage dImage, int mag)
         {
@@ -155,7 +156,7 @@ namespace Neuro_test
 
         public void SaveNetwork()
         {
-            var s =  "network.txt";
+            var s = "network.txt";
             string network_json = Network.SaveToJson(); ;
 
             File.Delete(s);
@@ -163,7 +164,7 @@ namespace Neuro_test
             {
                 using (var SW = new StreamWriter(FS))
                 {
-                        SW.WriteLine(network_json);
+                    SW.WriteLine(network_json);
                 }
             }
             InfoMultilayer.Add("Сохранил сеть.");
@@ -172,14 +173,23 @@ namespace Neuro_test
         public void TrainNetwork()
         {
             InfoMultilayer.Add("Начинаю обучение: " + DateTime.Now);
-            for (int i = 0; i<10000; i++)//trainImages.Length
+            for (int i = 0; i < 60; i++)//trainImages.Length
             {
                 int count = 0;
-                while (Network.GetAnswer() != trainImages[i].label)
-                {
-                    Network.Educate(trainImages[i].pixels, trainImages[i].label);
-                    count++;
-                }
+                //for (int j = 0; j < i; j++)
+                //{
+                    Network.SetInput(trainImages[i].pixels);
+                    while (Network.GetAnswer() != trainImages[i].label)
+                    {
+                        Network.Educate(trainImages[i].pixels, trainImages[i].label);
+                        count++;
+                    }
+                //}
+            }
+            for (int i = 0; i < 50; i++)
+            {
+                Network.SetInput(trainImages[i].pixels);
+                InfoMultilayer.Add("Число = " + trainImages[i].label + " Распознал = " + Network.GetAnswer());
             }
             InfoMultilayer.Add("Обучение закончил: " + DateTime.Now);
             InfoMultilayer.Add("Сеть готова к работе.");
@@ -187,7 +197,7 @@ namespace Neuro_test
 
         public void LoadBitmap()
         {
-            CurrentBitmap = MakeBitmap(testImages[CurrentImage], 1);
+            CurrentBitmap = MakeBitmap(trainImages[CurrentImage], 1); //testImages[CurrentImage], 1);
         }
 
         public void NextBitmap()
@@ -198,7 +208,7 @@ namespace Neuro_test
 
         public void GetAnswer()
         {
-            Network.SetInput(testImages[CurrentImage].pixels);
+            Network.SetInput(trainImages[CurrentImage].pixels);//test
             NetAnswer = Network.GetAnswer();
         }
 
@@ -207,6 +217,15 @@ namespace Neuro_test
             string text = System.IO.File.ReadAllText("work_network.txt");
             Network.RestoreWeights(text);
             InfoMultilayer.Add("Память нейронов успешно принята.");
+        }
+
+        public void PrevBitmap()
+        {
+            if (CurrentImage > 0)
+            {
+                CurrentImage--;
+                LoadBitmap();
+            }
         }
     }
 }
