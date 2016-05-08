@@ -15,7 +15,6 @@ namespace Neuro_test
         public int width; // 28
         public int height; // 28
         //public byte[][] pixels; // 0(white) - 255(black)
-        //public byte[] vectorPixels;
         public byte[] pixels;
         public byte label; // '0' - '9'
 
@@ -42,6 +41,7 @@ namespace Neuro_test
         private string pixelFileTest = "../../samples/MNIST/t10k-images.idx3-ubyte";
         private string labelFileTest = "../../samples/MNIST/t10k-labels.idx1-ubyte";
 
+        public IList<double> Outputs = new List<double>(30);
         public int CurrentImage = 0;
         public Bitmap CurrentBitmap = null;
         public DigitImage[] trainImages = null;
@@ -172,36 +172,64 @@ namespace Neuro_test
 
         public void TrainNetwork()
         {
+            
             InfoMultilayer.Add("Начинаю обучение: " + DateTime.Now);
-            Network.SetInputTest("1.bmp.in.txt");
-            Network.Educate(1);
+            double ErrorLimit = 1.0;//0.2
+            double CurrentError = 9223372036854775806.0;
+            while (CurrentError > ErrorLimit)
+            {
+                CurrentError = 0;
+
+                //Network.SetInputTest("2.bmp.in.txt");
+                //CurrentError += Network.Educate(2);
+
+                //Network.SetInputTest("1.bmp.in.txt");
+                //CurrentError += Network.Educate(1);
+                for (int i = 0; i < 10; i++)//trainImages.Length
+                {
+                    Network.SetInput(trainImages[i].pixels);
+                    CurrentError += Network.Educate(trainImages[i].label);
+                }
+                InfoMultilayer.Add("Ошибка выборки =  " + CurrentError);
+            }
+
+            //Network.SetInputTest("1.bmp.in.txt");
+            //Network.Educate(1);
            
-            Network.SetInputTest("2.bmp.in.txt");
-            Network.Educate(2);
+            //Network.SetInputTest("2.bmp.in.txt");
+            //Network.Educate(2);
 
-            Network.SetInputTest("1.bmp.in.txt");
-            InfoMultilayer.Add("Число = " + 1 + " Распознал = " + Network.GetAnswer());
-            Network.SetInputTest("2.bmp.in.txt");
-            InfoMultilayer.Add("Число = " + 2 + " Распознал = " + Network.GetAnswer());
+            //Network.SetInputTest("1.bmp.in.txt");
+            //InfoMultilayer.Add("Число = " + 1 + " Распознал = " + Network.GetAnswer());
+            //Network.SetInputTest("2.bmp.in.txt");
+            //InfoMultilayer.Add("Число = " + 2 + " Распознал = " + Network.GetAnswer());
 
-
+            //так было
             //for (int i = 0; i < 2; i++)//trainImages.Length
             //{
             //        Network.SetInput(trainImages[i].pixels);
             //            Network.Educate(trainImages[i].label);
             //}
-            //for (int i = 0; i < 2; i++)
-            //{
-            //    Network.SetInput(trainImages[i].pixels);
-            //    InfoMultilayer.Add("Число = " + trainImages[i].label + " Распознал = " + Network.GetAnswer());
-            //}
-            //InfoMultilayer.Add("Обучение закончил: " + DateTime.Now);
-            //InfoMultilayer.Add("Сеть готова к работе.");
+            int count = 0;
+            int res = 0;
+            for (int i = 0; i < 100; i++)
+            {
+                Network.SetInput(testImages[i].pixels);
+                res = Network.GetAnswer();
+                //InfoMultilayer.Add("Число = " + testImages[i].label + " Распознал = " + res);
+                if (res == testImages[i].label)
+                {
+                    count++;
+                }
+            }
+            InfoMultilayer.Add("Узнал правильных = " + count);
+            InfoMultilayer.Add("Обучение закончил: " + DateTime.Now);
+            InfoMultilayer.Add("Сеть готова к работе.");
         }
 
         public void LoadBitmap()
         {
-            CurrentBitmap = MakeBitmap(trainImages[CurrentImage], 1); //testImages[CurrentImage], 1);
+            CurrentBitmap = MakeBitmap(testImages[CurrentImage], 1); 
         }
 
         public void NextBitmap()
@@ -212,7 +240,7 @@ namespace Neuro_test
 
         public void GetAnswer()
         {
-            Network.SetInput(trainImages[CurrentImage].pixels);//test
+            Network.SetInput(testImages[CurrentImage].pixels);
             NetAnswer = Network.GetAnswer();
         }
 
@@ -230,6 +258,11 @@ namespace Neuro_test
                 CurrentImage--;
                 LoadBitmap();
             }
+        }
+
+        public void UpdateViewNet()
+        {
+            Outputs = Network.GetOutputs();
         }
     }
 }

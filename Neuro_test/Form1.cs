@@ -67,6 +67,40 @@ namespace WindowsFormsApplication1
             PictureBox.Image = Image.FromFile(learningViewModel.Path);
             IndicatorRecognition.Image = Image.FromFile(learningViewModel.IndicatorPath);
         }
+        private void UpdateViewNetLable()
+        {
+            multilayerNetworkViewModel.UpdateViewNet();
+            textBox1.Text = multilayerNetworkViewModel.Outputs[0].ToString();
+            textBox2.Text = multilayerNetworkViewModel.Outputs[1].ToString();
+            textBox3.Text = multilayerNetworkViewModel.Outputs[2].ToString();
+            textBox4.Text = multilayerNetworkViewModel.Outputs[3].ToString();
+            textBox5.Text = multilayerNetworkViewModel.Outputs[4].ToString();
+            textBox6.Text = multilayerNetworkViewModel.Outputs[5].ToString();
+            textBox7.Text = multilayerNetworkViewModel.Outputs[6].ToString();
+            textBox8.Text = multilayerNetworkViewModel.Outputs[7].ToString();
+            textBox9.Text = multilayerNetworkViewModel.Outputs[8].ToString();
+            textBox10.Text = multilayerNetworkViewModel.Outputs[9].ToString();
+            textBox11.Text = multilayerNetworkViewModel.Outputs[10].ToString();
+            textBox12.Text = multilayerNetworkViewModel.Outputs[11].ToString();
+            textBox13.Text = multilayerNetworkViewModel.Outputs[12].ToString();
+            textBox14.Text = multilayerNetworkViewModel.Outputs[13].ToString();
+            textBox15.Text = multilayerNetworkViewModel.Outputs[14].ToString();
+            textBox16.Text = multilayerNetworkViewModel.Outputs[15].ToString();
+            textBox17.Text = multilayerNetworkViewModel.Outputs[16].ToString();
+            textBox18.Text = multilayerNetworkViewModel.Outputs[17].ToString();
+            textBox19.Text = multilayerNetworkViewModel.Outputs[18].ToString();
+            textBox20.Text = multilayerNetworkViewModel.Outputs[19].ToString();
+            textBox21.Text = multilayerNetworkViewModel.Outputs[20].ToString();
+            textBox22.Text = multilayerNetworkViewModel.Outputs[21].ToString();
+            textBox23.Text = multilayerNetworkViewModel.Outputs[22].ToString();
+            textBox24.Text = multilayerNetworkViewModel.Outputs[23].ToString();
+            textBox25.Text = multilayerNetworkViewModel.Outputs[24].ToString();
+            textBox26.Text = multilayerNetworkViewModel.Outputs[25].ToString();
+            textBox27.Text = multilayerNetworkViewModel.Outputs[26].ToString();
+            textBox28.Text = multilayerNetworkViewModel.Outputs[27].ToString();
+            textBox29.Text = multilayerNetworkViewModel.Outputs[28].ToString();
+            textBox30.Text = multilayerNetworkViewModel.Outputs[29].ToString();
+        }
 
         private void MultilayerNetworkViewModelBind()
         {
@@ -152,8 +186,7 @@ namespace WindowsFormsApplication1
 
         private void downloadTests_Click(object sender, EventArgs e)
         {
-            //multilayerNetworkViewModel.LoadTestingData();
-            multilayerNetworkViewModel.LoadLearningData();
+            multilayerNetworkViewModel.LoadTestingData();
             multilayerNetworkViewModel.LoadBitmap();
             multilayerNetworkViewModel.GetAnswer();
             MultilayerNetworkViewModelBind();
@@ -164,6 +197,7 @@ namespace WindowsFormsApplication1
             multilayerNetworkViewModel.NextBitmap();
             multilayerNetworkViewModel.GetAnswer();
             MultilayerNetworkViewModelBind();
+            UpdateViewNetLable();
         }
 
         private void LoadNet_Click(object sender, EventArgs e)
@@ -177,6 +211,12 @@ namespace WindowsFormsApplication1
             multilayerNetworkViewModel.PrevBitmap();
             multilayerNetworkViewModel.GetAnswer();
             MultilayerNetworkViewModelBind();
+            UpdateViewNetLable();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

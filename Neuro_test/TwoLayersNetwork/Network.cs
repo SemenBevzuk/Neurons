@@ -14,10 +14,22 @@ namespace Neuro_test.TwoLayersNetwork
         private readonly double speed = 0.1; //коэффициент  0.5
         private const int SIZE = 28;
 
-
+        public IList<double> GetOutputs()
+        {
+            IList<double> NetOut = new List<double>(30);
+            for (int i = 0; i < 20; i++)
+            {
+                NetOut.Add(HiddenLayer[i].Signal);
+            }
+            for (int i = 0; i < 10; i++)
+            {
+                NetOut.Add(OutputLayer[i].Signal);
+            }
+            return NetOut;
+        }
         public int GetAnswer()
         {
-            var max = OutputLayer[0].Signal;
+            var max = OutputLayer[0].Signal;//Signal
             var pos = 0;
             for (var i = 0; i < OutputLayer.Count; i++)
             {
@@ -124,11 +136,11 @@ namespace Neuro_test.TwoLayersNetwork
             return 0.5 * total;
         }
 
-        public void Educate(int result)
+        public double Educate(int result)
         {
             //SetInput(input);
-            do
-            {
+            //do
+            //{
                 for (var i = 0; i < Errors.Count; i++)
                 {
                     if (i == result)
@@ -137,12 +149,17 @@ namespace Neuro_test.TwoLayersNetwork
                         Errors[i].Error = 0.01 - OutputLayer[i].Signal;
                 }
 
-                //int j = 0;
+                int j = 0;
                 foreach (var neuron in OutputLayer)
                 {
                     neuron.RecalculateDelta();
                     //neuron.RecalculateDeltaOutput(Errors[j].Error);
                     //j++;
+                }
+                foreach (var neuron in OutputLayer)
+                {
+                    neuron.RecalculateWeights(speed);
+                    //neuron.RecalculateWeightsAnotherOutput(speed);
                 }
                 foreach (var neuron in HiddenLayer)
                 {
@@ -152,14 +169,11 @@ namespace Neuro_test.TwoLayersNetwork
                 foreach (var neuron in HiddenLayer)
                 {
                     neuron.RecalculateWeights(speed);
-                    //neuron.RecalculateWeightsAnother(speed);
+                    //neuron.RecalculateWeightsAnotherHidden(speed);
                 }
-                foreach (var neuron in OutputLayer)
-                {
-                    neuron.RecalculateWeights(speed);
-                    //neuron.RecalculateWeightsAnother(speed);
-                }
-            } while (((TotalError() > 0.01) || (GetAnswer() != result))); //0.01 - пороговое значение ошибки
+                
+            //} while (TotalError() > 0.01); //0.01 - пороговое значение ошибки
+            return TotalError();
         }
 
         public string SaveToJson()
@@ -188,5 +202,7 @@ namespace Neuro_test.TwoLayersNetwork
                 OutputLayer[i].RestoreFromJson(lines[i]);
             }
         }
+
+
     }
 }

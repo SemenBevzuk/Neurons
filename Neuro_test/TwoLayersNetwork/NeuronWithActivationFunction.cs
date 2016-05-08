@@ -10,21 +10,25 @@ namespace Neuro_test.TwoLayersNetwork
         private double delta; //ошибка
         public IList<IErrorProvider> NextLayer;
 
-        //public double SignalOUT;
-
         private double sum; //e = input_signal*weight + ...;
         private IList<double> weight; //веса в него входящих
         private static Random rnd = new Random(10);
 
-        //public void CalculateSignalOUT()
-        //{
-        //    sum = 0;
-        //    for (var i = 0; i < inputSignalFromNeuro.Count; i++)
-        //    {
-        //        sum += inputSignalFromNeuro[i].Signal * weight[i];
-        //    }
-        //    SignalOUT = Sigmoid(sum);
-        //}
+        private double? signalOUT = null;
+
+        //null-абельный ленивый тип
+        public double? ValueSignalOUT
+        {
+            get
+            {
+                if (signalOUT == null)
+                {
+                    sum = GetSum;
+                    signalOUT = Sigmoid(sum);
+                }
+                return signalOUT;
+            }
+        }
 
         public NeuronWithActivationFunction(IList<ISignalProvider> inputSignalFromNeuroOut)
         {
@@ -33,16 +37,13 @@ namespace Neuro_test.TwoLayersNetwork
             for (int i = 0; i<inputSignalFromNeuroOut.Count; i++)
             {
                 weight.Add(rnd.NextDouble()-0.5);
-                //weight.Add(0.5);
             }
         }
 
         public NeuronWithActivationFunction(IList<ISignalProvider> inputSignalFromNeuro, IList<double> weight)
-            // IList<NeuronWithActivationFunction> nextLayer)
         {
             this.inputSignalFromNeuro = inputSignalFromNeuro;
             this.weight = weight;
-            //NextLayer = nextLayer;
         }
 
         private double GetSum
@@ -72,13 +73,10 @@ namespace Neuro_test.TwoLayersNetwork
             return delta*GetWeight(neuron);
         }
         //тестовая часть
-        //public void RecalculateDeltaOutput(double Error)
-        //{
-        //    for (int i = 0; i<10; i++)
-        //    {
-        //        delta = Error*SigmoidDerivative(sum);
-        //    }
-        //}
+        public void RecalculateDeltaOutput(double Error)
+        {
+            delta = Error * ValueSignalOUT.Value;
+        }
         //public void RecalculateDeltaHidden()
         //{
         //    double newDelta = 0;
@@ -93,9 +91,34 @@ namespace Neuro_test.TwoLayersNetwork
         //{
         //    for (var i = 0; i < weight.Count; i++)
         //    {
-        //        weight[i] = weight[i] + speed * delta * Sigmoid(sum);
+        //        weight[i] = weight[i] + speed*delta * Sigmoid(sum);//speed
         //    }
         //}
+        public void RecalculateWeightsAnotherOutput(double speed)
+        {
+            for (var i = 0; i < 20; i++)
+            {
+                weight[i] = weight[i] + speed * delta * ValueSignalOUT.Value;//speed
+            }
+            signalOUT = null;
+        }
+        public void RecalculateWeightsAnotherHidden(double speed)
+        {
+            for (var i = 0; i < 784; i++)
+            {
+                weight[i] = weight[i] + speed*delta*inputSignalFromNeuro[i].Signal; //ValueSignalOUT.Value;//speed
+            }
+            signalOUT = null;
+        }
+        public void RecalculateDeltaHidden()
+        {
+            double newDelta = 0;
+            foreach (var rightNeuron in NextLayer)
+            {
+                newDelta += rightNeuron.GetWeightedError(this);
+            }
+            delta = newDelta*SigmoidDerivative(sum);
+        }
         //тестовая часть
         public void RecalculateDelta()
         {
@@ -113,6 +136,7 @@ namespace Neuro_test.TwoLayersNetwork
             {
                 weight[i] =weight[i] + speed*delta*SigmoidDerivative(sum)*inputSignalFromNeuro[i].Signal;
             }
+            signalOUT = null;
         }
 
         public string SaveToJson()
@@ -127,7 +151,7 @@ namespace Neuro_test.TwoLayersNetwork
 
         private double Sigmoid(double x)
         {
-            return 1/(1 + Math.Exp(-x));
+            return 0.998*(1.0/(1 + Math.Exp(-x)))+0.001;
         }
 
         private double SigmoidDerivative(double x)
