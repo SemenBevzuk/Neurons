@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Neuro_test.TwoLayersNetwork
@@ -10,48 +11,48 @@ namespace Neuro_test.TwoLayersNetwork
         private readonly IList<NeuronWithActivationFunction> HiddenLayer;
         private readonly IList<NeuronWithActivationFunction> OutputLayer;
         private readonly IList<ErrorProvider> Errors;
-        private readonly double speed = 0.5; //коэффициент  0.5
+        private readonly double speed = 0.1; //коэффициент  0.5
         private const int SIZE = 28;
 
 
         public int GetAnswer()
         {
-            //var max = OutputLayer[0].Signal;
-            //var pos = 0;
-            //for (var i = 0; i < OutputLayer.Count; i++)
-            //{
-            //    if (OutputLayer[i].Signal > max) 
-            //    {
-            //        max = OutputLayer[i].Signal;
-            //        pos = i;
-            //    }
-            //}
-            //return pos;
-            for (int i = 0; i<20; i++)
-            {
-                HiddenLayer[i].CalculateSignalOUT();
-            }
-            for (int i = 0; i<10; i++)
-            {
-                OutputLayer[i].CalculateSignalOUT();
-            }
-
-            var max = OutputLayer[0].SignalOUT;
+            var max = OutputLayer[0].Signal;
             var pos = 0;
             for (var i = 0; i < OutputLayer.Count; i++)
             {
-                if (OutputLayer[i].SignalOUT > max)
+                if (OutputLayer[i].Signal > max)
                 {
-                    max = OutputLayer[i].SignalOUT;
+                    max = OutputLayer[i].Signal;
                     pos = i;
                 }
             }
             return pos;
+            //for (int i = 0; i < 20; i++)
+            //{
+            //    HiddenLayer[i].CalculateSignalOUT();
+            //}
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    OutputLayer[i].CalculateSignalOUT();
+            //}
+
+            //var max = OutputLayer[0].SignalOUT;
+            //var pos = 0;
+            //for (var i = 0; i < OutputLayer.Count; i++)
+            //{
+            //    if (OutputLayer[i].SignalOUT > max)
+            //    {
+            //        max = OutputLayer[i].SignalOUT;
+            //        pos = i;
+            //    }
+            //}
+            //return pos;
         }
 
         public Network()
         {
-            Inputs = new List<Pixel>(SIZE*SIZE);
+            Inputs = new List<Pixel>(SIZE * SIZE);
             for (var i = 0; i < SIZE * SIZE; i++)
             {
                 //Inputs[i] = new Pixel(0);
@@ -85,60 +86,82 @@ namespace Neuro_test.TwoLayersNetwork
             }
             for (var i = 0; i < OutputLayer.Count; i++)
             {
-                OutputLayer[i].NextLayer = new List<IErrorProvider>{Errors[i]}; 
+                OutputLayer[i].NextLayer = new List<IErrorProvider> { Errors[i] };
             }
         }
 
-        private double Sigmoid(double x)
+        public void SetInputTest(string s)
         {
-            return 1 / (1 + Math.Exp(-x));
-        }
+            String[] currFile;
 
+            // Загружаем текущий входной файл
+            currFile = File.ReadAllLines(s);
+
+            for (int i = 0; i < 784; i++)
+            {
+                Inputs[i].Signal = (Convert.ToDouble(currFile[i]));
+            }
+            //return out_input;
+        }
+     
         public void SetInput(IList<byte> input)
         {
             for (var i = 0; i < input.Count; i++)
             {
-                Inputs[i].Signal = Sigmoid(input[i]);
+                Inputs[i].Signal = input[i];
             }
         }
 
-        public void Educate(IList<byte> input, int result)
+        private double TotalError()
         {
-            SetInput(input);
-            if (GetAnswer() != result)
+            double total = 0;
+
+            for (int i = 0; i < Errors.Count; i++)
+            {
+                total += Math.Pow(Errors[i].Error, 2);
+            }
+
+            return 0.5 * total;
+        }
+
+        public void Educate(int result)
+        {
+            //SetInput(input);
+            do
             {
                 for (var i = 0; i < Errors.Count; i++)
                 {
                     if (i == result)
-                        Errors[result].Error = 1 - OutputLayer[result].Signal;
+                        Errors[result].Error = 0.99 - OutputLayer[result].Signal;
                     else
-                        Errors[i].Error = 0 - OutputLayer[result].Signal;
+                        Errors[i].Error = 0.01 - OutputLayer[i].Signal;
                 }
 
-                int j = 0;
+                //int j = 0;
                 foreach (var neuron in OutputLayer)
                 {
-                    //neuron.RecalculateDelta();
-                    neuron.RecalculateDeltaOutput(Errors[j].Error);
-                    j++;
+                    neuron.RecalculateDelta();
+                    //neuron.RecalculateDeltaOutput(Errors[j].Error);
+                    //j++;
                 }
                 foreach (var neuron in HiddenLayer)
                 {
-                    //neuron.RecalculateDelta();
-                    neuron.RecalculateDeltaHidden();
+                    neuron.RecalculateDelta();
+                    //neuron.RecalculateDeltaHidden();
                 }
                 foreach (var neuron in HiddenLayer)
                 {
-                    //neuron.RecalculateWeights(speed);
-                    neuron.RecalculateWeightsAnother(speed);
+                    neuron.RecalculateWeights(speed);
+                    //neuron.RecalculateWeightsAnother(speed);
                 }
                 foreach (var neuron in OutputLayer)
                 {
-                    //neuron.RecalculateWeights(speed);
-                    neuron.RecalculateWeightsAnother(speed);
+                    neuron.RecalculateWeights(speed);
+                    //neuron.RecalculateWeightsAnother(speed);
                 }
-            }
+            } while (((TotalError() > 0.01) || (GetAnswer() != result))); //0.01 - пороговое значение ошибки
         }
+
         public string SaveToJson()
         {
             var json = "";
@@ -155,7 +178,7 @@ namespace Neuro_test.TwoLayersNetwork
 
         public void RestoreWeights(string s)
         {
-            var lines = s.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
+            var lines = s.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             for (var i = 0; i < HiddenLayer.Count; i++)
             {
                 HiddenLayer[i].RestoreFromJson(lines[i]);

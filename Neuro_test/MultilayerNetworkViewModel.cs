@@ -173,26 +173,30 @@ namespace Neuro_test
         public void TrainNetwork()
         {
             InfoMultilayer.Add("Начинаю обучение: " + DateTime.Now);
-            for (int i = 0; i < 60; i++)//trainImages.Length
-            {
-                int count = 0;
-                //for (int j = 0; j < i; j++)
-                //{
-                    Network.SetInput(trainImages[i].pixels);
-                    while (Network.GetAnswer() != trainImages[i].label)
-                    {
-                        Network.Educate(trainImages[i].pixels, trainImages[i].label);
-                        count++;
-                    }
-                //}
-            }
-            for (int i = 0; i < 50; i++)
-            {
-                Network.SetInput(trainImages[i].pixels);
-                InfoMultilayer.Add("Число = " + trainImages[i].label + " Распознал = " + Network.GetAnswer());
-            }
-            InfoMultilayer.Add("Обучение закончил: " + DateTime.Now);
-            InfoMultilayer.Add("Сеть готова к работе.");
+            Network.SetInputTest("1.bmp.in.txt");
+            Network.Educate(1);
+           
+            Network.SetInputTest("2.bmp.in.txt");
+            Network.Educate(2);
+
+            Network.SetInputTest("1.bmp.in.txt");
+            InfoMultilayer.Add("Число = " + 1 + " Распознал = " + Network.GetAnswer());
+            Network.SetInputTest("2.bmp.in.txt");
+            InfoMultilayer.Add("Число = " + 2 + " Распознал = " + Network.GetAnswer());
+
+
+            //for (int i = 0; i < 2; i++)//trainImages.Length
+            //{
+            //        Network.SetInput(trainImages[i].pixels);
+            //            Network.Educate(trainImages[i].label);
+            //}
+            //for (int i = 0; i < 2; i++)
+            //{
+            //    Network.SetInput(trainImages[i].pixels);
+            //    InfoMultilayer.Add("Число = " + trainImages[i].label + " Распознал = " + Network.GetAnswer());
+            //}
+            //InfoMultilayer.Add("Обучение закончил: " + DateTime.Now);
+            //InfoMultilayer.Add("Сеть готова к работе.");
         }
 
         public void LoadBitmap()
