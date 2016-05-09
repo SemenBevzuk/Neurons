@@ -154,7 +154,21 @@ namespace Neuro_test
             return result;
         }
 
-        public void SaveNetwork()
+        public void SaveNetwork(string file_name)
+        {
+            string network_json = Network.SaveToJson(); ;
+
+            //File.Delete(s);
+            using (var FS = new FileStream(file_name, FileMode.Create))
+            {
+                using (var SW = new StreamWriter(FS))
+                {
+                    SW.WriteLine(network_json);
+                }
+            }
+            InfoMultilayer.Add("Сохранил сеть.");
+        }
+        private void SaveNetworkFast()
         {
             var s = "network.txt";
             string network_json = Network.SaveToJson(); ;
@@ -167,15 +181,14 @@ namespace Neuro_test
                     SW.WriteLine(network_json);
                 }
             }
-            InfoMultilayer.Add("Сохранил сеть.");
         }
-
         public void TrainNetwork()
         {
             
             InfoMultilayer.Add("Начинаю обучение: " + DateTime.Now);
-            double ErrorLimit = 1.0;//0.2
+            double ErrorLimit = 0.1;//0.2
             double CurrentError = 9223372036854775806.0;
+            int count_itatration = 0;
             while (CurrentError > ErrorLimit)
             {
                 CurrentError = 0;
@@ -185,14 +198,16 @@ namespace Neuro_test
 
                 //Network.SetInputTest("1.bmp.in.txt");
                 //CurrentError += Network.Educate(1);
-                for (int i = 0; i < 10; i++)//trainImages.Length
+                for (int i = 0; i < 50; i++)//trainImages.Length
                 {
                     Network.SetInput(trainImages[i].pixels);
                     CurrentError += Network.Educate(trainImages[i].label);
+                    count_itatration++;
                 }
-                InfoMultilayer.Add("Ошибка выборки =  " + CurrentError);
+                SaveNetworkFast();
+                //InfoMultilayer.Add("Ошибка выборки =  " + CurrentError);
             }
-
+            InfoMultilayer.Add("Ошибка выборки =  " + CurrentError);
             //Network.SetInputTest("1.bmp.in.txt");
             //Network.Educate(1);
            
@@ -223,6 +238,7 @@ namespace Neuro_test
                 }
             }
             InfoMultilayer.Add("Узнал правильных = " + count);
+            InfoMultilayer.Add("Всего итераций = " + count_itatration);
             InfoMultilayer.Add("Обучение закончил: " + DateTime.Now);
             InfoMultilayer.Add("Сеть готова к работе.");
         }
@@ -244,9 +260,9 @@ namespace Neuro_test
             NetAnswer = Network.GetAnswer();
         }
 
-        public void LoadNetwork()
+        public void LoadNetwork(string file_name)
         {
-            string text = System.IO.File.ReadAllText("work_network.txt");
+            string text = System.IO.File.ReadAllText(file_name);
             Network.RestoreWeights(text);
             InfoMultilayer.Add("Память нейронов успешно принята.");
         }
@@ -263,6 +279,22 @@ namespace Neuro_test
         public void UpdateViewNet()
         {
             Outputs = Network.GetOutputs();
+        }
+
+        public void TestNet()
+        {
+            int count = 0;
+            int res = 0;
+            for (int i = 0; i < 50; i++)
+            {
+                Network.SetInput(trainImages[i].pixels);
+                res = Network.GetAnswer();
+                if (res == trainImages[i].label)
+                {
+                    count++;
+                }
+            }
+            InfoMultilayer.Add("Узнал правильных = " + count);
         }
     }
 }

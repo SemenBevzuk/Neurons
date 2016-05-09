@@ -173,14 +173,19 @@ namespace WindowsFormsApplication1
 
         private void SaveNetwork_Click(object sender, EventArgs e)
         {
-            multilayerNetworkViewModel.SaveNetwork();
+            var dialog_res = saveFileDialog1.ShowDialog();
+            if (dialog_res == DialogResult.OK)
+            {
+                multilayerNetworkViewModel.SaveNetwork(saveFileDialog1.FileName);
+            }
+           
             MultilayerNetworkViewModelBind();
         }
 
         private void StartLearning_Click(object sender, EventArgs e)
         {
             multilayerNetworkViewModel.TrainNetwork();
-            multilayerNetworkViewModel.SaveNetwork();
+            multilayerNetworkViewModel.SaveNetwork("autosave.txt");
             MultilayerNetworkViewModelBind();
         }
 
@@ -202,7 +207,11 @@ namespace WindowsFormsApplication1
 
         private void LoadNet_Click(object sender, EventArgs e)
         {
-            multilayerNetworkViewModel.LoadNetwork();
+            var dialog_res = openFileDialog1.ShowDialog();
+            if (dialog_res == DialogResult.OK)
+            {
+                multilayerNetworkViewModel.LoadNetwork(openFileDialog1.FileName);
+            }
             MultilayerNetworkViewModelBind();
         }
 
@@ -217,6 +226,12 @@ namespace WindowsFormsApplication1
         private void label3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void buttonTestNet_Click(object sender, EventArgs e)
+        {
+            multilayerNetworkViewModel.TestNet();
+            MultilayerNetworkViewModelBind();
         }
     }
 }

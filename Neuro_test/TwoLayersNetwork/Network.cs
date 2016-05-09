@@ -120,7 +120,15 @@ namespace Neuro_test.TwoLayersNetwork
         {
             for (var i = 0; i < input.Count; i++)
             {
-                Inputs[i].Signal = input[i];
+                //Inputs[i].Signal = input[i]-128;//сдвиг на середину
+                if (input[i]>128)
+                {
+                    Inputs[i].Signal = 0.5;
+                }
+                else
+                {
+                    Inputs[i].Signal = -0.5;
+                }
             }
         }
 
