@@ -130,6 +130,14 @@ namespace Neuro_test.TwoLayersNetwork
                     Inputs[i].Signal = -0.5;
                 }
             }
+            foreach (var neuron in HiddenLayer)
+            {
+                neuron.ClearSignal();
+            }
+            foreach (var neuron in OutputLayer)
+            {
+                neuron.ClearSignal();
+            }
         }
 
         private double TotalError()
@@ -157,7 +165,6 @@ namespace Neuro_test.TwoLayersNetwork
                         Errors[i].Error = 0.01 - OutputLayer[i].Signal;
                 }
 
-                int j = 0;
                 foreach (var neuron in OutputLayer)
                 {
                     neuron.RecalculateDelta();
@@ -180,7 +187,6 @@ namespace Neuro_test.TwoLayersNetwork
                     //neuron.RecalculateWeightsAnotherHidden(speed);
                 }
                 
-            //} while (TotalError() > 0.01); //0.01 - пороговое значение ошибки
             return TotalError();
         }
 
@@ -207,10 +213,8 @@ namespace Neuro_test.TwoLayersNetwork
             }
             for (var i = 0; i < OutputLayer.Count; i++)
             {
-                OutputLayer[i].RestoreFromJson(lines[i]);
+                OutputLayer[i].RestoreFromJson(lines[HiddenLayer.Count + i]);
             }
         }
-
-
     }
 }

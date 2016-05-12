@@ -14,22 +14,6 @@ namespace Neuro_test.TwoLayersNetwork
         private IList<double> weight; //веса в него входящих
         private static Random rnd = new Random(10);
 
-        private double? signalOUT = null;
-
-        //null-абельный ленивый тип
-        public double? ValueSignalOUT
-        {
-            get
-            {
-                if (signalOUT == null)
-                {
-                    sum = GetSum;
-                    signalOUT = Sigmoid(sum);
-                }
-                return signalOUT;
-            }
-        }
-
         public NeuronWithActivationFunction(IList<ISignalProvider> inputSignalFromNeuroOut)
         {
             this.inputSignalFromNeuro = inputSignalFromNeuroOut;
@@ -59,12 +43,17 @@ namespace Neuro_test.TwoLayersNetwork
             }
         }
 
+        private double? signal;
         public double Signal
         {
             get
             {
-                sum = GetSum;
-                return Sigmoid(sum);
+                if (signal == null)
+                {
+                    sum = GetSum;
+                    signal =  Sigmoid(sum);
+                }
+                return signal.Value;
             }
         }
 
@@ -75,7 +64,7 @@ namespace Neuro_test.TwoLayersNetwork
         //тестовая часть
         public void RecalculateDeltaOutput(double Error)
         {
-            delta = Error * ValueSignalOUT.Value;
+            delta = Error * Signal;
         }
         //public void RecalculateDeltaHidden()
         //{
@@ -94,31 +83,31 @@ namespace Neuro_test.TwoLayersNetwork
         //        weight[i] = weight[i] + speed*delta * Sigmoid(sum);//speed
         //    }
         //}
-        public void RecalculateWeightsAnotherOutput(double speed)
-        {
-            for (var i = 0; i < 20; i++)
-            {
-                weight[i] = weight[i] + speed * delta * ValueSignalOUT.Value;//speed
-            }
-            signalOUT = null;
-        }
-        public void RecalculateWeightsAnotherHidden(double speed)
-        {
-            for (var i = 0; i < 784; i++)
-            {
-                weight[i] = weight[i] + speed*delta*inputSignalFromNeuro[i].Signal; //ValueSignalOUT.Value;//speed
-            }
-            signalOUT = null;
-        }
-        public void RecalculateDeltaHidden()
-        {
-            double newDelta = 0;
-            foreach (var rightNeuron in NextLayer)
-            {
-                newDelta += rightNeuron.GetWeightedError(this);
-            }
-            delta = newDelta*SigmoidDerivative(sum);
-        }
+        //public void RecalculateWeightsAnotherOutput(double speed)
+        //{
+        //    for (var i = 0; i < 20; i++)
+        //    {
+        //        weight[i] = weight[i] + speed * delta * Signal;//speed
+        //    }
+        //    signal = null;
+        //}
+        //public void RecalculateWeightsAnotherHidden(double speed)
+        //{
+        //    for (var i = 0; i < 784; i++)
+        //    {
+        //        weight[i] = weight[i] + speed*delta*inputSignalFromNeuro[i].Signal; //ValueSignalOUT.Value;//speed
+        //    }
+        //    signal = null;
+        //}
+        //public void RecalculateDeltaHidden()
+        //{
+        //    double newDelta = 0;
+        //    foreach (var rightNeuron in NextLayer)
+        //    {
+        //        newDelta += rightNeuron.GetWeightedError(this);
+        //    }
+        //    delta = newDelta*SigmoidDerivative(sum);
+        //}
         //тестовая часть
         public void RecalculateDelta()
         {
@@ -136,7 +125,7 @@ namespace Neuro_test.TwoLayersNetwork
             {
                 weight[i] =weight[i] + speed*delta*SigmoidDerivative(sum)*inputSignalFromNeuro[i].Signal;
             }
-            signalOUT = null;
+            ClearSignal();
         }
 
         public string SaveToJson()
@@ -169,6 +158,11 @@ namespace Neuro_test.TwoLayersNetwork
                 }
             }
             throw new ArgumentException("Попытка вычисления ошибки для неизвестного нейрона");
+        }
+
+        public void ClearSignal()
+        {
+            signal = null;
         }
     }
 }

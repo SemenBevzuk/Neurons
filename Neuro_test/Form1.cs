@@ -38,7 +38,7 @@ namespace WindowsFormsApplication1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            learningViewModel.Homer = new Neuron(3, 5, learningViewModel.Input, "5");
+            learningViewModel.Neuron = new Neuron(3, 5, learningViewModel.Input, "5");
             for (int i = 0; i < 10; i++)
             {
                 recognitionViewModel.Web[i] = new Neuron(3, 5, learningViewModel.Input, i.ToString());
@@ -108,6 +108,7 @@ namespace WindowsFormsApplication1
             InfoBoxLearningMultilayer.Items.AddRange(multilayerNetworkViewModel.InfoMultilayer.ToArray());
             pictureBoxNumber.Image = multilayerNetworkViewModel.CurrentBitmap;
             NetAnswer.Text = multilayerNetworkViewModel.NetAnswer.ToString();
+            MNISTanswer.Text = multilayerNetworkViewModel.MNISTAnswer.ToString();
             CurrentNumber.Text = multilayerNetworkViewModel.CurrentImage.ToString();
         }
 
@@ -230,7 +231,13 @@ namespace WindowsFormsApplication1
 
         private void buttonTestNet_Click(object sender, EventArgs e)
         {
-            multilayerNetworkViewModel.TestNet();
+            multilayerNetworkViewModel.TestNet(200);
+            MultilayerNetworkViewModelBind();
+        }
+
+        private void buttonTestTrainNet_Click(object sender, EventArgs e)
+        {
+            multilayerNetworkViewModel.TestTrainNet(200);//1000
             MultilayerNetworkViewModelBind();
         }
     }

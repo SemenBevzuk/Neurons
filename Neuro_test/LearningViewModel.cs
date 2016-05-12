@@ -12,7 +12,7 @@ namespace Neuro_test
     public class LearningViewModel
     {
         public string CurrentFile = "0.txt";
-        public Neuron Homer;
+        public Neuron Neuron;
         public int ImageCounter = -1;
         public List<string> InfoBox = new List<string>();
         public List<string> FileBox = new List<string>();
@@ -22,16 +22,16 @@ namespace Neuro_test
 
         public void Recognize()
         {
-            Homer.mul_w();
-            Homer.Sum();
-            if (Homer.Result())
+            Neuron.mul_w();
+            Neuron.Sum();
+            if (Neuron.Result())
             {
-                InfoBox.Add(" - True, Sum = " + Convert.ToString(Homer.sum));
+                InfoBox.Add(" - True, Sum = " + Convert.ToString(Neuron.sum));
                 IndicatorPath = "../../true.png";
             }
             else
             {
-                InfoBox.Add(" - False, Sum = " + Convert.ToString(Homer.sum));
+                InfoBox.Add(" - False, Sum = " + Convert.ToString(Neuron.sum));
                 IndicatorPath = "../../false.png";
             }
 
@@ -104,9 +104,9 @@ namespace Neuro_test
 
         public void IncorrectRecognition()
         {
-            if (Homer.Result() == false)
-                Homer.incW(Input);
-            else Homer.decW(Input);
+            if (Neuron.Result() == false)
+                Neuron.incW(Input);
+            else Neuron.decW(Input);
 
             //Запись
             SaveNeuron();
@@ -158,7 +158,7 @@ namespace Neuro_test
         }
         public  void CurrentNeuronChanged(string new_name)
         {
-            Homer = new Neuron(3, 5, Input, new_name);
+            Neuron = new Neuron(3, 5, Input, new_name);
             InfoBox.Clear();
             ImageCounter = -1;
             var s = new_name + ".txt";
@@ -175,7 +175,7 @@ namespace Neuro_test
                     InfoBox.Add("");
                     if (k < 5)
                     {
-                        Homer.weight[i, k] = Convert.ToInt32(s1[i]);
+                        Neuron.weight[i, k] = Convert.ToInt32(s1[i]);
                     }
                 }
                 k++;
@@ -199,7 +199,7 @@ namespace Neuro_test
                 {
                     if (k < 5)
                     {
-                        Homer.weight[i, k] = Convert.ToInt32(s1[i]);
+                        Neuron.weight[i, k] = Convert.ToInt32(s1[i]);
                     }
                 }
                 k++;
@@ -224,9 +224,9 @@ namespace Neuro_test
         }
         private void Learning()
         {
-            if (Homer.Result() == false)
-                Homer.incW(Input);
-            else Homer.decW(Input);
+            if (Neuron.Result() == false)
+                Neuron.incW(Input);
+            else Neuron.decW(Input);
         }
 
         private void SaveNeuron()
@@ -241,9 +241,9 @@ namespace Neuro_test
                 {
                     for (var y = 0; y <= 4; y++)
                     {
-                        s = Convert.ToString(Homer.weight[0, y]) +
-                            " " + Convert.ToString(Homer.weight[1, y]) +
-                            " " + Convert.ToString(Homer.weight[2, y]);
+                        s = Convert.ToString(Neuron.weight[0, y]) +
+                            " " + Convert.ToString(Neuron.weight[1, y]) +
+                            " " + Convert.ToString(Neuron.weight[2, y]);
                         s1[y] = s;
 
                         SW.WriteLine(s);
@@ -261,15 +261,15 @@ namespace Neuro_test
                 for (int count = 0; count<10; count++)
                 {
                     ReadSample(count.ToString());
-                    Homer.input = Input;
-                    Homer.mul_w();
-                    Homer.Sum();
-                    if (Homer.Result() && (Homer.name != count.ToString()))
+                    Neuron.input = Input;
+                    Neuron.mul_w();
+                    Neuron.Sum();
+                    if (Neuron.Result() && (Neuron.name != count.ToString()))
                     {
                         IsErorrs = true;
                         Learning();
                     }
-                    if (!Homer.Result() && Homer.name == count.ToString())
+                    if (!Neuron.Result() && Neuron.name == count.ToString())
                     {
                         IsErorrs = true;
                         Learning();
@@ -289,7 +289,7 @@ namespace Neuro_test
             for (int i = 0; i < 10; i++)
             {
                 ReadFile(i.ToString());
-                Homer.name = i.ToString();
+                Neuron.name = i.ToString();
                 NeuronTraining();
                 backgroundWorker.ReportProgress((i+1)*10);
             }

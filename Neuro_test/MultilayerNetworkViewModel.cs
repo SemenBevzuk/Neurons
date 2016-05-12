@@ -48,6 +48,7 @@ namespace Neuro_test
         public DigitImage[] testImages = null;
         public List<string> InfoMultilayer = new List<string>();
         public int NetAnswer = -1;
+        public int MNISTAnswer = -1;
         public Network Network = new Network();
 
 
@@ -186,19 +187,15 @@ namespace Neuro_test
         {
             
             InfoMultilayer.Add("Начинаю обучение: " + DateTime.Now);
-            double ErrorLimit = 0.1;//0.2
+            double ErrorLimit = 0.01;//0.2
             double CurrentError = 9223372036854775806.0;
             int count_itatration = 0;
             while (CurrentError > ErrorLimit)
             {
                 CurrentError = 0;
 
-                //Network.SetInputTest("2.bmp.in.txt");
-                //CurrentError += Network.Educate(2);
 
-                //Network.SetInputTest("1.bmp.in.txt");
-                //CurrentError += Network.Educate(1);
-                for (int i = 0; i < 50; i++)//trainImages.Length
+                for (int i = 0; i < 800; i++)//trainImages.Length
                 {
                     Network.SetInput(trainImages[i].pixels);
                     CurrentError += Network.Educate(trainImages[i].label);
@@ -208,36 +205,20 @@ namespace Neuro_test
                 //InfoMultilayer.Add("Ошибка выборки =  " + CurrentError);
             }
             InfoMultilayer.Add("Ошибка выборки =  " + CurrentError);
-            //Network.SetInputTest("1.bmp.in.txt");
-            //Network.Educate(1);
-           
-            //Network.SetInputTest("2.bmp.in.txt");
-            //Network.Educate(2);
 
-            //Network.SetInputTest("1.bmp.in.txt");
-            //InfoMultilayer.Add("Число = " + 1 + " Распознал = " + Network.GetAnswer());
-            //Network.SetInputTest("2.bmp.in.txt");
-            //InfoMultilayer.Add("Число = " + 2 + " Распознал = " + Network.GetAnswer());
-
-            //так было
-            //for (int i = 0; i < 2; i++)//trainImages.Length
+            //int count = 0;
+            //int res = 0;
+            //for (int i = 0; i < 100; i++)
             //{
-            //        Network.SetInput(trainImages[i].pixels);
-            //            Network.Educate(trainImages[i].label);
+            //    Network.SetInput(testImages[i].pixels);
+            //    res = Network.GetAnswer();
+            //    //InfoMultilayer.Add("Число = " + testImages[i].label + " Распознал = " + res);
+            //    if (res == testImages[i].label)
+            //    {
+            //        count++;
+            //    }
             //}
-            int count = 0;
-            int res = 0;
-            for (int i = 0; i < 100; i++)
-            {
-                Network.SetInput(testImages[i].pixels);
-                res = Network.GetAnswer();
-                //InfoMultilayer.Add("Число = " + testImages[i].label + " Распознал = " + res);
-                if (res == testImages[i].label)
-                {
-                    count++;
-                }
-            }
-            InfoMultilayer.Add("Узнал правильных = " + count);
+            //InfoMultilayer.Add("Узнал правильных = " + count);
             InfoMultilayer.Add("Всего итераций = " + count_itatration);
             InfoMultilayer.Add("Обучение закончил: " + DateTime.Now);
             InfoMultilayer.Add("Сеть готова к работе.");
@@ -245,7 +226,8 @@ namespace Neuro_test
 
         public void LoadBitmap()
         {
-            CurrentBitmap = MakeBitmap(testImages[CurrentImage], 1); 
+            //CurrentBitmap = MakeBitmap(testImages[CurrentImage], 1); 
+            CurrentBitmap = MakeBitmap(trainImages[CurrentImage], 1); 
         }
 
         public void NextBitmap()
@@ -256,8 +238,12 @@ namespace Neuro_test
 
         public void GetAnswer()
         {
-            Network.SetInput(testImages[CurrentImage].pixels);
+            //Network.SetInput(testImages[CurrentImage].pixels);
+            //NetAnswer = Network.GetAnswer();
+            //MNISTAnswer = testImages[CurrentImage].label;
+            Network.SetInput(trainImages[CurrentImage].pixels);
             NetAnswer = Network.GetAnswer();
+            MNISTAnswer = trainImages[CurrentImage].label;
         }
 
         public void LoadNetwork(string file_name)
@@ -281,11 +267,28 @@ namespace Neuro_test
             Outputs = Network.GetOutputs();
         }
 
-        public void TestNet()
+        public void TestNet(int size)
         {
             int count = 0;
-            int res = 0;
-            for (int i = 0; i < 50; i++)
+            int res;
+            for (int i = 0; i < size; i++)
+            {
+                Network.SetInput(testImages[i].pixels);
+                res = Network.GetAnswer();
+                if (res == testImages[i].label)
+                {
+                    count++;
+                }
+            }
+            InfoMultilayer.Add("Узнал в тестовой базе правильнo: " + count);
+            InfoMultilayer.Add("В процентах: " + (count*100)/size);
+        }
+
+        public void TestTrainNet(int size)
+        {
+            int count = 0;
+            int res;
+            for (int i = 0; i < size; i++)
             {
                 Network.SetInput(trainImages[i].pixels);
                 res = Network.GetAnswer();
@@ -294,7 +297,8 @@ namespace Neuro_test
                     count++;
                 }
             }
-            InfoMultilayer.Add("Узнал правильных = " + count);
+            InfoMultilayer.Add("Узнал в тренировочной правильнo базе: " + count);
+            InfoMultilayer.Add("В процентах: " + (count * 100) / size);
         }
     }
 }
